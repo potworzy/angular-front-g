@@ -4,6 +4,8 @@ import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'r
 import { AuthToken } from './auth-token.model';
 import { HttpConfig, HTTP_CONFIG_TOKEN } from './http-config';
 import { NavigationExtras, Router } from '@angular/router';
+import { environment } from '../../environments/environments';
+import { GameService } from '../game/game.service';
 
 
 export interface AuthResponseData {
@@ -24,7 +26,7 @@ export enum ChoosenForm{
   providedIn: 'root'
 })
 export class AuthService {
-  private BASE_URL: string = 'http://localhost:3000/api/v1'
+  private BASE_URL: string = environment.apiURL
 
   isLoginSubject = new BehaviorSubject<boolean>(this.username ? true : false)
   loginOrRegisterToShow = new BehaviorSubject<ChoosenForm>(ChoosenForm.hidden)
@@ -41,19 +43,29 @@ export class AuthService {
   get username(): string | null{
     return localStorage.getItem('username')
   }
+  set id(id: string | null) {
+    if (id) localStorage.setItem('id', id);
+    else {
+      localStorage.removeItem('username');
+      localStorage.removeItem('id');
+    }
+  }
 
   set username(username: string | null) {
     if (username) {
-      localStorage.setItem('username', username)
+      localStorage.setItem('username', username);
     }
-    else localStorage.removeItem('username')
+    else {
+      localStorage.removeItem('username')
+      localStorage.removeItem('id')
+    }
   }
 
   get loginUrl() {
     return this.httpConfig.loginUrl
   }
 
-  constructor(@Inject(HTTP_CONFIG_TOKEN) private httpConfig: HttpConfig, private http: HttpClient) { }
+  constructor(@Inject(HTTP_CONFIG_TOKEN) private httpConfig: HttpConfig, private http: HttpClient, private router: Router) { }
 
   isLoggedIn(): Observable<boolean>{
     return this.isLoginSubject.asObservable()
@@ -86,9 +98,11 @@ export class AuthService {
       password: password,
     }, { withCredentials: true }).pipe(
       tap(responseData => {
-        this.username = responseData.email
+        this.username = responseData.name
+        this.id = responseData.id
         this.isLoginSubject.next(true)
         this.loginOrRegisterToShow.next(ChoosenForm.hidden)
+        this.router.navigate(['/game'])
       }),
       catchError(err => throwError(err))
     );
@@ -96,7 +110,6 @@ export class AuthService {
   logout() {
     return this.http.get(this.BASE_URL + "/auth/logout", { withCredentials: true }).pipe(
       tap(responseData => {
-        console.log('data', responseData)
         this.username = null
         this.isLoginSubject.next(false)
       }),
@@ -111,9 +124,11 @@ export class AuthService {
       name: name,
     }, { withCredentials: true }).pipe(
       tap(responseData => {
-        this.username = responseData.email
+        this.username = responseData.name
+        this.id = responseData.id
         this.isLoginSubject.next(true)
         this.loginOrRegisterToShow.next(ChoosenForm.hidden)
+        this.router.navigate(['/game'])
       }),
       catchError(err => throwError(err))
     );

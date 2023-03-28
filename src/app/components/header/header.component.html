@@ -2,13 +2,13 @@
   <div class="header-container">Header</div>
   <ul class="logging-menu">
   <li *ngIf="!(isLoggedIn | async)">
-    <a (click)="showLoginPage()">Login</a>
+    <button (click)="showLoginPage()">Sign in</button>
   </li>
   <li *ngIf="!(isLoggedIn | async)">
-    <a (click)="showRegisterPage()">Register</a>
+    <button (click)="showRegisterPage()">Sign up</button>
   </li>
   <li *ngIf="(isLoggedIn | async)">
-    <a (click)="logout()">Logout</a>
+    <button (click)="logout()">Sign out</button>
   </li>
 </ul>
 </div>
