@@ -30,10 +30,11 @@ export class GameService {
     )
   }
   getUserCreatedGames() {
-    return this.http.get<GameListItem[]>(this.BASE_URL + "/game/mygames", { withCredentials: true }).pipe(
+    console.log('gamelist in')
+    return this.http.get(this.BASE_URL + "/game/mygames", { withCredentials: true }).pipe(
       tap(responseData => {
-        this.gameList = responseData
-        console.log('gamelist',this.gameList)
+        //this.gameList = responseData
+        console.log('gamelist',responseData)
       }),
       catchError(err => throwError(err))
     );

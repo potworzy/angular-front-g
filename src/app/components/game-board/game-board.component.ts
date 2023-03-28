@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { GameService } from '../../game/game.service';
 
@@ -7,10 +7,12 @@ import { GameService } from '../../game/game.service';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.scss']
 })
-export class GameBoardComponent {
+export class GameBoardComponent implements OnInit {
   isLoggedIn:Observable<boolean>
   constructor(private gameService: GameService) {
     this.isLoggedIn = this.gameService.isLoggedIn
   }
-
+  ngOnInit(): void {
+      this.gameService.getUserCreatedGames().subscribe()
+  }
 }
