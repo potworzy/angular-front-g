@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* RESET */
-
+@import 'assets/styles/variables.scss';
 /* this is the "root" in "root em." */
 html {
   font-size: 62.5%;
@@ -18,5 +18,29 @@ body {
   line-height: 1.5;
   /* a nice line-height */
 
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  font-family: Arial, Helvetica, sans-serif;
+}
+.btn{
+  width:fit-content;
+  min-width: 15rem;
+  min-height: 3.5rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+}
+.btn-submit{
+  box-shadow: 1px 2px 12px -7px $base-dark-5-elements;
+  color: $base-text-light;
+  background-color: $base-dark-3-elements;
+}
+.input-text{
+  min-height: 3.5rem;
+  border: solid 1px $base-dark-3-elements;
+  border-radius: 0.5rem;
+  box-shadow: 1px 2px 12px -7px $base-dark-5-elements;
+  font-size: 1.8rem;
+}
+.input-text::placeholder{
+  font-size: 1.4rem;
 }

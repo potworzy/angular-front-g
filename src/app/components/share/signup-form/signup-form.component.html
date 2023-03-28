@@ -1,0 +1,13 @@
+<div class="signup-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
+    <label class="input-text-labbel">email:</label>
+    <input formControlName="email" type="email" placeholder="email@example.com" required class="input-text">
+    <label class="input-text-labbel">name:</label>
+    <input formControlName="name" type="text" placeholder="Your name" required class="input-text">
+    <label class="input-text-labbel">password:</label>
+    <input formControlName="password" type="password" placeholder="password" required class="input-text">
+    <label class="input-text-labbel">repeat password:</label>
+    <input formControlName="repassword" type="password" placeholder="repeat password" required class="input-text">
+    <button class="btn btn-submit">register</button>
+  </form>
+</div>

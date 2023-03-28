@@ -4,6 +4,7 @@
   min-height: 5rem;
   width: 100%;
   display: flex;
+  justify-content: space-between;
   position: sticky;
   background-color: $base-dark-5-elements;
   color: $base-text-light;
@@ -14,4 +15,10 @@
   align-items: center;
   margin-left: 2rem;
   margin-right: 2rem;
+}
+.logging-menu {
+  li {
+    display: inline-block;
+    margin-right: 2rem;
+  }
 }

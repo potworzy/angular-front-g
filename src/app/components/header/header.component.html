@@ -1,3 +1,14 @@
 <div class="header">
   <div class="header-container">Header</div>
+  <ul class="logging-menu">
+  <li *ngIf="!(isLoggedIn | async)">
+    <a (click)="showLoginPage()">Login</a>
+  </li>
+  <li *ngIf="!(isLoggedIn | async)">
+    <a (click)="showRegisterPage()">Register</a>
+  </li>
+  <li *ngIf="(isLoggedIn | async)">
+    <a (click)="logout()">Logout</a>
+  </li>
+</ul>
 </div>
