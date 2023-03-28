@@ -1,24 +1,52 @@
 import { Inject, Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { AuthToken } from './auth-token.model';
 import { HttpConfig, HTTP_CONFIG_TOKEN } from './http-config';
 import { NavigationExtras, Router } from '@angular/router';
 
+
+export interface AuthResponseData {
+  id: string,
+  name: string,
+  email: string,
+  authToken:string,
+  refreshToken: string,
+  expiresIn: string,
+  registered?: boolean
+}
+export enum ChoosenForm{
+  hidden = 'hidden',
+  loginF = 'login',
+  registerF = 'register',
+}
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private BASE_URL: string = 'http://localhost:3000/api/v1/'
+  private BASE_URL: string = 'http://localhost:3000/api/v1'
+
+  isLoginSubject = new BehaviorSubject<boolean>(this.username ? true : false)
+  loginOrRegisterToShow = new BehaviorSubject<ChoosenForm>(ChoosenForm.hidden)
+  loginOrRegister():Observable<ChoosenForm> {
+    return this.loginOrRegisterToShow.asObservable()
+  }
+  loginToShow() {
+    this.loginOrRegisterToShow.next(ChoosenForm.loginF)
+  }
+  registerToShow() {
+    this.loginOrRegisterToShow.next(ChoosenForm.registerF)
+  }
   
   get username(): string | null{
-    return sessionStorage.getItem('username')
+    return localStorage.getItem('username')
   }
 
   set username(username: string | null) {
     if (username) {
-      sessionStorage.setItem('username', username)
+      localStorage.setItem('username', username)
     }
+    else localStorage.removeItem('username')
   }
 
   get loginUrl() {
@@ -27,8 +55,12 @@ export class AuthService {
 
   constructor(@Inject(HTTP_CONFIG_TOKEN) private httpConfig: HttpConfig, private http: HttpClient) { }
 
-  fetchAccessToken(username: string, password: string): Observable<AuthToken>{
-    return this.http.post<AuthToken>(`${this.BASE_URL}/auth/login/`, { username, password }).pipe(
+  isLoggedIn(): Observable<boolean>{
+    return this.isLoginSubject.asObservable()
+  }
+
+  fetchAccessToken(username: string, password: string): Observable<AuthResponseData>{
+    return this.http.post<AuthResponseData>(`${this.BASE_URL}/auth/login`, { username, password },{ withCredentials: true }).pipe(
       catchError((err) => {
         return throwError(err);
       })
@@ -36,8 +68,7 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<String>{
-    return this.http.get<String>(`${this.BASE_URL}/auth/refresh/`).pipe(
-      tap(res => this.username = this.username),
+    return this.http.get<String>(`${this.BASE_URL}/auth/refresh/`,{withCredentials: true}).pipe(
       catchError((err) => throwError(err))
     )
   }
@@ -46,5 +77,45 @@ export class AuthService {
     let params: any[] = [this.loginUrl]
     if (extraParam) params.push(extraParam)
     router.navigate(params, extras)
+  }
+
+
+  login(email: string, password: string) {
+    return this.http.post<AuthResponseData>(this.BASE_URL + "/auth/login", {
+      email: email,
+      password: password,
+    }, { withCredentials: true }).pipe(
+      tap(responseData => {
+        this.username = responseData.email
+        this.isLoginSubject.next(true)
+        this.loginOrRegisterToShow.next(ChoosenForm.hidden)
+      }),
+      catchError(err => throwError(err))
+    );
+  }
+  logout() {
+    return this.http.get(this.BASE_URL + "/auth/logout", { withCredentials: true }).pipe(
+      tap(responseData => {
+        console.log('data', responseData)
+        this.username = null
+        this.isLoginSubject.next(false)
+      }),
+      catchError(err => throwError(err))
+    );
+  }
+  register(email: string, password: string, repassword:string, name: string) {
+    return this.http.post<AuthResponseData>(this.BASE_URL + "/auth/register", {
+      email: email,
+      password: password,
+      confirmPassword: repassword,
+      name: name,
+    }, { withCredentials: true }).pipe(
+      tap(responseData => {
+        this.username = responseData.email
+        this.isLoginSubject.next(true)
+        this.loginOrRegisterToShow.next(ChoosenForm.hidden)
+      }),
+      catchError(err => throwError(err))
+    );
   }
 }
