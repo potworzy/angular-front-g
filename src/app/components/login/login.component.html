@@ -1,5 +1,5 @@
 <div class="forms-container">
-  <app-signin-form *ngIf="(chooseForm | async) !== 'register' || (chooseForm | async) === 'login'"></app-signin-form>
+  <app-signin-form *ngIf="(chooseForm | async) !== 'register'"></app-signin-form>
   <app-signup-form *ngIf="(chooseForm | async) === 'register'"></app-signup-form>
 </div>
 

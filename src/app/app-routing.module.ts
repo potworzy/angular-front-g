@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'game', component: GameBoardComponent, canActivate: [AuthGuard] },
+  { path: 'game/:id', component: GameBoardComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

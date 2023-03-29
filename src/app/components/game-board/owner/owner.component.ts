@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { GameService } from '../../../game/game.service';
+import { DatePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { GameListItem, GameService } from '../../../game/game.service';
 
 @Component({
   selector: 'app-owner',
@@ -7,9 +9,18 @@ import { GameService } from '../../../game/game.service';
   styleUrls: ['./owner.component.scss']
 })
 export class OwnerComponent implements OnInit {
-  constructor(private gameService: GameService) { }
+  
+  createdGamesList: GameListItem[] = []
+  
+  created$: Observable<GameListItem[]> = new Observable()
+  
+  constructor(private gameService: GameService, private datePipe:DatePipe) { }
   ngOnInit(): void {
-    this.gameService.getUserCreatedGames().subscribe()
-    
+    this.created$ = this.gameService.getUserCreatedGames()
+    this.created$.subscribe(
+      games => {
+        if (games.length > 0) this.createdGamesList = games;
+      }
+    );
   }
 }

@@ -14,6 +14,7 @@ import { SignupFormComponent } from './components/share/signup-form/signup-form.
 import { LoginComponent } from './components/login/login.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
 import { OwnerComponent } from './components/game-board/owner/owner.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { OwnerComponent } from './components/game-board/owner/owner.component';
   ],
   providers: [
     httpConfigProvider,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

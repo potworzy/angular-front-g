@@ -13,6 +13,6 @@ export class GameBoardComponent implements OnInit {
     this.isLoggedIn = this.gameService.isLoggedIn
   }
   ngOnInit(): void {
-      this.gameService.getUserCreatedGames().subscribe()
+      
   }
 }

@@ -1,1 +1,17 @@
-<p>owner works!</p>
+<div class="games-list-container" *ngIf="createdGamesList">
+  <ul class="games-list">
+  <li *ngFor="let game of createdGamesList">
+    <div class="game-list-item">
+      <div class="game-list-item-title-container">
+        <span class="game-label">title: </span><span class="game-list-item-title">{{game.title}}</span>
+      </div>
+      <div class="game-list-item-created-container">
+        <span class="game-label">created: </span><span class="game-list-item-created">{{game.createDateTime | date: 'dd-MM-yyyy hh:mm:ss'}}</span>
+      </div>
+      <div class="game-list-item-link-container">
+        <span class="game-label" *ngIf="game.finished">ended:</span><span class="game-label" *ngIf="!game.finished">active:</span> <button routerLink="/game/{{game.id}}" class="game-list-link">visit</button>
+      </div>
+    </div>
+  </li>
+  </ul>
+</div>
