@@ -12,6 +12,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { SigninFormComponent } from './components/share/signin-form/signin-form.component';
 import { SignupFormComponent } from './components/share/signup-form/signup-form.component';
 import { LoginComponent } from './components/login/login.component';
+import { GameBoardComponent } from './components/game-board/game-board.component';
+import { OwnerComponent } from './components/game-board/owner/owner.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { LoginComponent } from './components/login/login.component';
     HeaderComponent,
     SigninFormComponent,
     SignupFormComponent,
-    LoginComponent
+    LoginComponent,
+    GameBoardComponent,
+    OwnerComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +35,7 @@ import { LoginComponent } from './components/login/login.component';
   ],
   providers: [
     httpConfigProvider,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
