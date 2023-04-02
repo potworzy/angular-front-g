@@ -15,6 +15,8 @@ import { LoginComponent } from './components/login/login.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
 import { OwnerComponent } from './components/game-board/owner/owner.component';
 import { DatePipe } from '@angular/common';
+import { GameTableComponent } from './components/game-board/game-table/game-table.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { DatePipe } from '@angular/common';
     SignupFormComponent,
     LoginComponent,
     GameBoardComponent,
-    OwnerComponent
+    OwnerComponent,
+    GameTableComponent
   ],
   imports: [
     BrowserModule,
