@@ -1,12 +1,8 @@
 import {
   AfterViewInit,
-  Component, ComponentRef,
-  ContentChildren,
+  Component,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
-  ViewRef
 } from '@angular/core';
 import {Observable} from 'rxjs';
 import {GameListItem} from "../../share/share.class-from-api";

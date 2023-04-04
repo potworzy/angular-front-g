@@ -1,6 +1,5 @@
 import {DatePipe} from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {GameStore} from "../../../game/game.store";
 import {GameListByAvailability} from "../../../share/share.enums";
 import {GameListItem} from "../../../share/share.class-from-api";

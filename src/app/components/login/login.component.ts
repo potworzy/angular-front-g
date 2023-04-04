@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService} from '../../auth/auth.service';
 import {ChoosenForm} from "../../share/share.enums";
 

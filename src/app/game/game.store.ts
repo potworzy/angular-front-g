@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, throwError} from "rxjs";
 import {GameListItem} from "../share/share.class-from-api";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environments";
