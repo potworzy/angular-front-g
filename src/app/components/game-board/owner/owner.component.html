@@ -1,6 +1,6 @@
-<div class="games-list-container" *ngIf="createdGamesList">
+<div class="games-list-container" *ngIf="gamesList">
   <ul class="games-list">
-  <li *ngFor="let game of createdGamesList">
+  <li *ngFor="let game of gamesList">
     <div class="game-list-item">
       <div class="game-list-item-title-container">
         <span class="game-label">title: </span><span class="game-list-item-title">{{game.title}}</span>

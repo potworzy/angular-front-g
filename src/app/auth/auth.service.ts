@@ -1,27 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
-import { AuthToken } from './auth-token.model';
 import { HttpConfig, HTTP_CONFIG_TOKEN } from './http-config';
 import { NavigationExtras, Router } from '@angular/router';
 import { environment } from '../../environments/environments';
-import { GameService } from '../game/game.service';
+import {ChoosenForm} from "../share/share.enums";
+import {AuthResponseData} from "../share/share.interfaces";
 
-
-export interface AuthResponseData {
-  id: string,
-  name: string,
-  email: string,
-  authToken:string,
-  refreshToken: string,
-  expiresIn: string,
-  registered?: boolean
-}
-export enum ChoosenForm{
-  hidden = 'hidden',
-  loginF = 'login',
-  registerF = 'register',
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -39,7 +24,7 @@ export class AuthService {
   registerToShow() {
     this.loginOrRegisterToShow.next(ChoosenForm.registerF)
   }
-  
+
   get username(): string | null{
     return localStorage.getItem('username')
   }
