@@ -1,2 +1,2 @@
-<p *ngIf="(isLoggedIn | async)">game-board works!</p>
-<app-owner></app-owner>
+<app-owner [typeList]="listAvailable" #refListAvailable></app-owner>
+<app-owner [typeList]="listEnded" #refListEnded></app-owner>
