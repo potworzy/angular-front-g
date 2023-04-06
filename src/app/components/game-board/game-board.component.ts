@@ -10,6 +10,7 @@ import {GameStore} from "../../game/game.store";
 import {OwnerComponent} from "./owner/owner.component";
 import {GameListByAvailability} from "../../share/share.enums";
 import {AuthService} from "../../auth/auth.service";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
   selector: 'app-game-board',
@@ -22,24 +23,29 @@ export class GameBoardComponent implements OnInit, AfterViewInit {
   listAvailable = GameListByAvailability.GAME_IN_PROGRESS
   listEnded = GameListByAvailability.GAME_ENDED
   isLoggedIn:Observable<boolean>
-  ownerEndedGames$:Observable<GameListItem[]> = new Observable<GameListItem[]>()
-  ownerAvailableGames$:Observable<GameListItem[]> = new Observable<GameListItem[]>()
-  constructor(private authService:AuthService , private gameStore: GameStore) {
+  availableGames$:Observable<GameListItem[]> = new Observable<GameListItem[]>()
+  constructor(private authService:AuthService , private gameStore: GameStore, private route:ActivatedRoute) {
     this.isLoggedIn = this.authService.isLoginSubject
+    this.availableGames$ = this.gameStore.games$
   }
   ngOnInit(): void {
-    this.updateGamesLists()
+
   }
   ngAfterViewInit(){
-    this.ownerAvailableGames$.subscribe({
+    this.availableGames$.subscribe({
       next: list => {
-       if(this.refListAvailable) this.refListAvailable.gamesList = list
+        console.log('list1', list)
+       if(this.refListAvailable) {
+         this.refListAvailable.gamesList = list.filter((game) => !game.finished)
+       }
+       if(this.refListEnded) {
+         this.refListEnded.gamesList = list.filter((game) => game.finished)
+       }
       }
     })
-  }
-
-  updateGamesLists(){
-    this.ownerAvailableGames$ = this.gameStore.filterByGameState(false)
-    this.ownerEndedGames$ = this.gameStore.filterByGameState(true)
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.gameStore.gameDetails(params.get('id'))
+      //   else return
+    })
   }
 }

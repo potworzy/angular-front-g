@@ -9,7 +9,7 @@
         <span class="game-label">created: </span><span class="game-list-item-created">{{game.createDateTime | date: 'dd-MM-yyyy hh:mm:ss'}}</span>
       </div>
       <div class="game-list-item-link-container">
-        <span class="game-label" *ngIf="game.finished">ended:</span><span class="game-label" *ngIf="!game.finished">active:</span> <button routerLink="/game/{{game.id}}" class="game-list-link">visit</button>
+        <span class="game-label" *ngIf="game.finished">ended:</span><span class="game-label" *ngIf="!game.finished">active:</span> <button (click)="details(game.id)" class="game-list-link">{{game.finished?'show':'join'}}</button>
       </div>
     </div>
   </li>

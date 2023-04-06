@@ -13,15 +13,11 @@ export class SigninFormComponent {
     password: new FormControl()
   })
   constructor(private authService: AuthService){}
-  
+
   onFormSubmit() {
-    if (!this.loginForm.valid) { 
+    if (!this.loginForm.valid) {
       return;
     }
-    //console.log("onFormSubmit", String(this.loginForm.value.email), String(this.loginForm.value.password));
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
-      next: (data) => console.log('data', data),
-      error: (err) => console.log('error', err)
-    })
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe()
   }
 }
